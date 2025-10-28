@@ -16,7 +16,8 @@ const [formData, setFormData] = useState({
     name_c: deal?.name_c || deal?.name || "",
     contact_id_c: deal?.contact_id_c?.Id || deal?.contactId || "",
     value_c: deal?.value_c || deal?.value || "",
-    status_c: deal?.status_c || deal?.status || "lead"
+    status_c: deal?.status_c || deal?.status || "lead",
+    notes_c: deal?.notes_c || deal?.notes || ""
   });
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
@@ -69,7 +70,8 @@ setFormData({
         name_c: "",
         contact_id_c: "",
         value_c: "",
-        status_c: "lead"
+        status_c: "lead",
+        notes_c: ""
       });
     } catch (error) {
       toast.error(`Failed to ${deal ? "update" : "create"} deal`);
@@ -146,8 +148,18 @@ setFormData({
           <option value="negotiation">Negotiation</option>
           <option value="won">Won</option>
           <option value="lost">Lost</option>
-        </FormField>
+</FormField>
         
+        <FormField
+          label="Notes"
+          type="textarea"
+          name="notes_c"
+          value={formData.notes_c}
+          onChange={handleChange}
+          error={errors.notes_c}
+          rows={4}
+          className="col-span-2"
+        />
         <div className="flex justify-end space-x-3 pt-4">
           <Button
             type="button"
