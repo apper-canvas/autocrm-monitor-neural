@@ -22,19 +22,19 @@ const [formData, setFormData] = useState({
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
 
-  const validateForm = () => {
+const validateForm = () => {
     const newErrors = {};
     
-    if (!formData.name.trim()) {
-      newErrors.name = "Deal name is required";
+    if (!formData.name_c.trim()) {
+      newErrors.name_c = "Deal name is required";
     }
     
-    if (!formData.contactId) {
-      newErrors.contactId = "Contact is required";
+    if (!formData.contact_id_c) {
+      newErrors.contact_id_c = "Contact is required";
     }
     
-    if (!formData.value || formData.value <= 0) {
-      newErrors.value = "Value must be greater than 0";
+    if (!formData.value_c || formData.value_c <= 0) {
+      newErrors.value_c = "Value must be greater than 0";
     }
 
     setErrors(newErrors);
@@ -103,20 +103,20 @@ setFormData({
       size="md"
     >
       <form onSubmit={handleSubmit} className="space-y-4">
-        <FormField
+<FormField
           label="Deal Name *"
-          value={formData.name}
-          onChange={handleChange("name")}
-          error={errors.name}
+          value={formData.name_c}
+          onChange={handleChange("name_c")}
+          error={errors.name_c}
           placeholder="Enter deal name"
         />
         
-        <FormField
+<FormField
           label="Contact *"
           type="select"
-          value={formData.contactId}
-          onChange={handleChange("contactId")}
-          error={errors.contactId}
+          value={formData.contact_id_c}
+          onChange={handleChange("contact_id_c")}
+          error={errors.contact_id_c}
         >
           <option value="">Select a contact</option>
           {contacts.map((contact) => (
@@ -126,23 +126,23 @@ setFormData({
           ))}
         </FormField>
         
-        <FormField
+<FormField
           label="Value *"
           type="input"
           inputType="number"
-          value={formData.value}
-          onChange={handleChange("value")}
-          error={errors.value}
+          value={formData.value_c}
+          onChange={handleChange("value_c")}
+          error={errors.value_c}
           placeholder="Enter deal value"
           step="0.01"
           min="0"
         />
         
-        <FormField
+<FormField
           label="Status"
           type="select"
-          value={formData.status}
-          onChange={handleChange("status")}
+          value={formData.status_c}
+          onChange={handleChange("status_c")}
         >
           <option value="lead">Lead</option>
           <option value="negotiation">Negotiation</option>
@@ -150,12 +150,12 @@ setFormData({
           <option value="lost">Lost</option>
 </FormField>
         
-        <FormField
+<FormField
           label="Notes"
           type="textarea"
           name="notes_c"
           value={formData.notes_c}
-          onChange={handleChange}
+          onChange={handleChange("notes_c")}
           error={errors.notes_c}
           rows={4}
           className="col-span-2"
