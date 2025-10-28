@@ -14,12 +14,13 @@ class DealService {
       }
 
       const params = {
-        fields: [
+fields: [
           { field: { Name: "Name" } },
           { field: { Name: "name_c" } },
           { field: { Name: "contact_id_c" }, referenceField: { field: { Name: "Name" } } },
           { field: { Name: "value_c" } },
           { field: { Name: "status_c" } },
+          { field: { Name: "notes_c" } },
           { field: { Name: "ModifiedOn" } }
         ]
       };
@@ -46,12 +47,13 @@ class DealService {
       }
 
       const params = {
-        fields: [
+fields: [
           { field: { Name: "Name" } },
           { field: { Name: "name_c" } },
           { field: { Name: "contact_id_c" }, referenceField: { field: { Name: "Name" } } },
           { field: { Name: "value_c" } },
           { field: { Name: "status_c" } },
+          { field: { Name: "notes_c" } },
           { field: { Name: "ModifiedOn" } }
         ]
       };
