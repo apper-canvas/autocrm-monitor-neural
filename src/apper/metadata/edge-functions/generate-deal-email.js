@@ -21,7 +21,7 @@ apper.serve(async (req) => {
     if (!dealName || !newStage) {
       return new Response(JSON.stringify({
         success: false,
-        message: 'Missing required fields: dealName, duedate and newStage are required.'
+        message: 'Missing required fields: dealName and newStage are required.'
       }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' }
