@@ -1,0 +1,47 @@
+[
+  {
+    "Id": 1,
+    "name": "TechCorp Software License",
+    "contactId": 1,
+    "value": 25000,
+    "status": "negotiation",
+    "createdAt": "2024-01-10T10:30:00Z",
+    "updatedAt": "2024-01-15T14:20:00Z"
+  },
+  {
+    "Id": 2,
+    "name": "Digital Innovation Consulting",
+    "contactId": 2,
+    "value": 15000,
+    "status": "lead",
+    "createdAt": "2024-01-08T14:15:00Z",
+    "updatedAt": "2024-01-12T09:30:00Z"
+  },
+  {
+    "Id": 3,
+    "name": "StartupCo Platform Development",
+    "contactId": 3,
+    "value": 45000,
+    "status": "won",
+    "createdAt": "2024-01-05T09:45:00Z",
+    "updatedAt": "2024-01-18T16:45:00Z"
+  },
+  {
+    "Id": 4,
+    "name": "Enterprise Integration Project",
+    "contactId": 4,
+    "value": 75000,
+    "status": "negotiation",
+    "createdAt": "2024-01-12T16:20:00Z",
+    "updatedAt": "2024-01-20T10:15:00Z"
+  },
+  {
+    "Id": 5,
+    "name": "Growth Analytics Package",
+    "contactId": 5,
+    "value": 8500,
+    "status": "lost",
+    "createdAt": "2024-01-09T11:30:00Z",
+    "updatedAt": "2024-01-14T13:45:00Z"
+  }
+]
