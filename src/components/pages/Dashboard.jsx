@@ -25,11 +25,14 @@ const Dashboard = () => {
         taskService.getAll()
       ]);
       
-      setContacts(contactsData);
-      setDeals(dealsData);
-      setTasks(tasksData);
+      setContacts(contactsData || []);
+      setDeals(dealsData || []);
+      setTasks(tasksData || []);
     } catch (err) {
       setError("Failed to load dashboard data");
+      setContacts([]);
+      setDeals([]);
+      setTasks([]);
     } finally {
       setLoading(false);
     }

@@ -1,6 +1,8 @@
-import { cn } from "@/utils/cn";
-import MobileSidebar from "@/components/organisms/MobileSidebar";
+import React from "react";
+import ApperIcon from "@/components/ApperIcon";
 import Button from "@/components/atoms/Button";
+import MobileSidebar from "@/components/organisms/MobileSidebar";
+import { cn } from "@/utils/cn";
 
 const Header = ({ 
   title, 
@@ -24,7 +26,18 @@ const Header = ({
           <Button onClick={onAction} icon="Plus">
             {actionLabel}
           </Button>
-        )}
+)}
+        <button
+          onClick={() => {
+            if (window.ApperSDK?.ApperUI?.logout) {
+              window.ApperSDK.ApperUI.logout();
+            }
+          }}
+          className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+        >
+          <ApperIcon name="LogOut" className="h-5 w-5" />
+          <span className="hidden sm:inline">Logout</span>
+        </button>
       </div>
     </header>
   );

@@ -14,11 +14,11 @@ const TaskForm = ({
   onSuccess 
 }) => {
   const [formData, setFormData] = useState({
-    description: task?.description || "",
-    dueDate: task?.dueDate || "",
-    completed: task?.completed || false,
-    relatedEntityType: task?.relatedEntityType || "contact",
-    relatedEntityId: task?.relatedEntityId || ""
+description_c: task?.description_c || task?.description || "",
+    due_date_c: task?.due_date_c || task?.dueDate || "",
+    completed_c: task?.completed_c !== undefined ? task?.completed_c : (task?.completed || false),
+    related_entity_type_c: task?.related_entity_type_c || task?.relatedEntityType || "contact",
+    related_entity_id_c: task?.related_entity_id_c || task?.relatedEntityId || ""
   });
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
@@ -45,10 +45,8 @@ const TaskForm = ({
     
     setLoading(true);
     try {
-      const taskData = {
-        ...formData,
-        relatedEntityId: formData.relatedEntityId ? 
-          parseInt(formData.relatedEntityId) : null
+const taskData = {
+        ...formData
       };
       
       if (task) {
@@ -63,12 +61,12 @@ const TaskForm = ({
       onClose();
       
       // Reset form
-      setFormData({
-        description: "",
-        dueDate: "",
-        completed: false,
-        relatedEntityType: "contact",
-        relatedEntityId: ""
+setFormData({
+        description_c: "",
+        due_date_c: "",
+        completed_c: false,
+        related_entity_type_c: "contact",
+        related_entity_id_c: ""
       });
     } catch (error) {
       toast.error(`Failed to ${task ? "update" : "create"} task`);

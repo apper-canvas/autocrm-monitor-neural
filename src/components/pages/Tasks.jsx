@@ -28,11 +28,14 @@ const Tasks = () => {
         contactService.getAll(),
         dealService.getAll()
       ]);
-      setTasks(tasksData);
-      setContacts(contactsData);
-      setDeals(dealsData);
+      setTasks(tasksData || []);
+      setContacts(contactsData || []);
+      setDeals(dealsData || []);
     } catch (err) {
       setError("Failed to load tasks");
+      setTasks([]);
+      setContacts([]);
+      setDeals([]);
     } finally {
       setLoading(false);
     }

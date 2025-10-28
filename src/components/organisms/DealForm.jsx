@@ -12,11 +12,11 @@ const DealForm = ({
   contacts = [],
   onSuccess 
 }) => {
-  const [formData, setFormData] = useState({
-    name: deal?.name || "",
-    contactId: deal?.contactId || "",
-    value: deal?.value || "",
-    status: deal?.status || "lead"
+const [formData, setFormData] = useState({
+    name_c: deal?.name_c || deal?.name || "",
+    contact_id_c: deal?.contact_id_c?.Id || deal?.contactId || "",
+    value_c: deal?.value_c || deal?.value || "",
+    status_c: deal?.status_c || deal?.status || "lead"
   });
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
@@ -48,9 +48,9 @@ const DealForm = ({
     setLoading(true);
     try {
       const dealData = {
-        ...formData,
-        contactId: parseInt(formData.contactId),
-        value: parseFloat(formData.value)
+...formData,
+        contact_id_c: parseInt(formData.contact_id_c),
+        value_c: parseFloat(formData.value_c)
       };
       
       if (deal) {
@@ -65,11 +65,11 @@ const DealForm = ({
       onClose();
       
       // Reset form
-      setFormData({
-        name: "",
-        contactId: "",
-        value: "",
-        status: "lead"
+setFormData({
+        name_c: "",
+        contact_id_c: "",
+        value_c: "",
+        status_c: "lead"
       });
     } catch (error) {
       toast.error(`Failed to ${deal ? "update" : "create"} deal`);
@@ -118,8 +118,8 @@ const DealForm = ({
         >
           <option value="">Select a contact</option>
           {contacts.map((contact) => (
-            <option key={contact.Id} value={contact.Id}>
-              {contact.name}
+<option key={contact.Id} value={contact.Id}>
+              {contact.name_c || contact.name || contact.Name}
             </option>
           ))}
         </FormField>

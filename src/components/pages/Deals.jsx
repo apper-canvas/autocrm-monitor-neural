@@ -25,10 +25,12 @@ const Deals = () => {
         dealService.getAll(),
         contactService.getAll()
       ]);
-      setDeals(dealsData);
-      setContacts(contactsData);
+      setDeals(dealsData || []);
+      setContacts(contactsData || []);
     } catch (err) {
       setError("Failed to load deals");
+      setDeals([]);
+      setContacts([]);
     } finally {
       setLoading(false);
     }

@@ -57,25 +57,25 @@ const ContactTable = ({ contacts, onEdit, onRefresh }) => {
                     <div className="flex items-center">
                       <div className="h-8 w-8 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center">
                         <span className="text-sm font-medium text-white">
-                          {contact.name?.charAt(0) || "?"}
+{(contact.name_c || contact.name || contact.Name || "?").charAt(0)}
                         </span>
                       </div>
                       <div className="ml-3">
                         <div className="text-sm font-medium text-gray-900">
-                          {contact.name}
+{contact.name_c || contact.name || contact.Name}
                         </div>
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {contact.company || "-"}
+<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {contact.company_c || contact.company || "-"}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {contact.email || "-"}
+{contact.email_c || contact.email || "-"}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {contact.lastContactDate ? 
-                      format(new Date(contact.lastContactDate), "MMM d, yyyy") : 
+format(new Date(contact.last_contact_date_c || contact.lastContactDate), "MMM d, yyyy") : 
                       "-"
                     }
                   </td>
@@ -110,7 +110,7 @@ const ContactTable = ({ contacts, onEdit, onRefresh }) => {
         onClose={() => setDeleteContact(null)}
         onConfirm={handleDelete}
         title="Delete Contact"
-        message={`Are you sure you want to delete ${deleteContact?.name}? This action cannot be undone.`}
+message={`Are you sure you want to delete ${deleteContact?.name_c || deleteContact?.name || deleteContact?.Name}? This action cannot be undone.`}
         confirmLabel={loading ? "Deleting..." : "Delete"}
         variant="danger"
       />

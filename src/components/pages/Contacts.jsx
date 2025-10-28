@@ -20,9 +20,14 @@ const Contacts = () => {
     
     try {
       const data = await contactService.getAll();
-      setContacts(data);
+      if (!data || data.length === 0) {
+        setContacts([]);
+      } else {
+        setContacts(data);
+      }
     } catch (err) {
       setError("Failed to load contacts");
+      setContacts([]);
     } finally {
       setLoading(false);
     }

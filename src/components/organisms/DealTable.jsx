@@ -11,7 +11,11 @@ const DealTable = ({ deals, contacts, onEdit, onRefresh }) => {
   const [deleteDeal, setDeleteDeal] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const getContactName = (contactId) => {
+const getContactName = (deal) => {
+    if (deal.contact_id_c?.Name) {
+      return deal.contact_id_c.Name;
+    }
+    const contactId = deal.contact_id_c?.Id || deal.contactId;
     const contact = contacts.find(c => c.Id === contactId);
     return contact?.name || "Unknown Contact";
   };
@@ -83,25 +87,25 @@ const DealTable = ({ deals, contacts, onEdit, onRefresh }) => {
                       </div>
                       <div className="ml-3">
                         <div className="text-sm font-medium text-gray-900">
-                          {deal.name}
+{deal.name_c || deal.name || deal.Name}
                         </div>
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {getContactName(deal.contactId)}
+<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {getContactName(deal)}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    {formatCurrency(deal.value)}
+<td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    {formatCurrency(deal.value_c || deal.value)}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <Badge variant={statusColors[deal.status]}>
-                      {deal.status?.charAt(0).toUpperCase() + deal.status?.slice(1)}
+<Badge variant={statusColors[deal.status_c || deal.status]}>
+                      {(deal.status_c || deal.status)?.charAt(0).toUpperCase() + (deal.status_c || deal.status)?.slice(1)}
                     </Badge>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {deal.updatedAt ? 
-                      format(new Date(deal.updatedAt), "MMM d, yyyy") : 
+{deal.ModifiedOn ? 
+                      format(new Date(deal.ModifiedOn), "MMM d, yyyy") :
                       "-"
                     }
                   </td>
