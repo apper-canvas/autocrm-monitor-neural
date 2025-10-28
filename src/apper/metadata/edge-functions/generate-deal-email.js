@@ -1,9 +1,8 @@
 import apper from 'https://cdn.apper.io/actions/apper-actions.js';
-import OpenAI from 'npm:openai';
 
 apper.serve(async (req) => {
   try {
-    // Only accept POST requests
+    // ✅ Only allow POST
     if (req.method !== 'POST') {
       return new Response(JSON.stringify({
         success: false,
@@ -14,11 +13,11 @@ apper.serve(async (req) => {
       });
     }
 
-    // Parse request body
+    // ✅ Parse request body
     const body = await req.json();
     const { dealName, newStage, dealValue, contactName } = body;
 
-    // Validate required fields
+    // ✅ Validate inputs
     if (!dealName || !newStage) {
       return new Response(JSON.stringify({
         success: false,
@@ -29,7 +28,7 @@ apper.serve(async (req) => {
       });
     }
 
-    // Get OpenAI API key from secrets
+    // ✅ Get secret API key
     const apiKey = await apper.getSecret('OPENAI_API_KEY');
     if (!apiKey) {
       return new Response(JSON.stringify({
@@ -41,10 +40,7 @@ apper.serve(async (req) => {
       });
     }
 
-    // Initialize OpenAI client
-    const openai = new OpenAI({ apiKey });
-
-    // Create stage-specific context for email generation
+    // ✅ Stage-specific context
     const stageContexts = {
       lead: 'initial outreach to introduce our company and explore potential interest',
       qualified: 'follow-up after qualifying the lead to discuss their specific needs',
@@ -56,7 +52,7 @@ apper.serve(async (req) => {
 
     const stageContext = stageContexts[newStage] || 'general communication regarding the deal';
 
-    // Build prompt for OpenAI
+    // ✅ Build the prompt
     const prompt = `Generate a professional email template for a sales representative to send regarding a deal at the "${newStage}" stage.
 
 Deal Details:
@@ -83,25 +79,43 @@ Subject: [subject line]
 Best regards,
 [Your Name]`;
 
-    // Call OpenAI API
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-4',
-      messages: [
-        {
-          role: 'system',
-          content: 'You are a professional sales email writer. Generate clear, effective, and personalized sales emails based on deal stage and context.'
-        },
-        {
-          role: 'user',
-          content: prompt
-        }
-      ],
-      temperature: 0.7,
-      max_tokens: 500
+    // ✅ Call OpenAI REST API
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: 'gpt-4',
+        messages: [
+          {
+            role: 'system',
+            content: 'You are a professional sales email writer. Generate clear, effective, and personalized sales emails based on deal stage and context.'
+          },
+          {
+            role: 'user',
+            content: prompt
+          }
+        ],
+        temperature: 0.7,
+        max_tokens: 500
+      })
     });
 
-    // Extract generated email
-    const generatedEmail = completion.choices[0]?.message?.content;
+    if (!response.ok) {
+      const errorText = await response.text();
+      return new Response(JSON.stringify({
+        success: false,
+        message: `OpenAI API error: ${errorText}`
+      }), {
+        status: response.status,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
+    const data = await response.json();
+    const generatedEmail = data.choices?.[0]?.message?.content;
 
     if (!generatedEmail) {
       return new Response(JSON.stringify({
@@ -113,7 +127,7 @@ Best regards,
       });
     }
 
-    // Return successful response
+    // ✅ Return success response
     return new Response(JSON.stringify({
       success: true,
       data: {
@@ -127,31 +141,10 @@ Best regards,
     });
 
   } catch (error) {
-    // Handle OpenAI API errors
-    if (error.status === 401) {
-      return new Response(JSON.stringify({
-        success: false,
-        message: 'Invalid OpenAI API key. Please verify your OPENAI_API_KEY secret.'
-      }), {
-        status: 401,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-
-    if (error.status === 429) {
-      return new Response(JSON.stringify({
-        success: false,
-        message: 'OpenAI API rate limit exceeded. Please try again later.'
-      }), {
-        status: 429,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-
-    // Handle all other errors
+    // ✅ Handle known API issues
     return new Response(JSON.stringify({
       success: false,
-      message: error.message || 'An unexpected error occurred while generating email.'
+      message: error.message || 'Unexpected error occurred while generating email.'
     }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' }
