@@ -19,6 +19,11 @@ const Sidebar = ({ className }) => {
       href: "/deals", 
       icon: "DollarSign"
     },
+{
+      name: "Companies",
+      href: "/companies",
+      icon: "Building2"
+    },
     {
       name: "Tasks",
       href: "/tasks",
