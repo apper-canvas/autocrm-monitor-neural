@@ -29,11 +29,11 @@ apper.serve(async (req) => {
     }
 
     // ✅ Get secret API key
-    const apiKey = await apper.getSecret('OPENAI_API_KEY');
+const apiKey = await apper.getSecret('GEMINI_API_KEY');
     if (!apiKey) {
       return new Response(JSON.stringify({
         success: false,
-        message: 'OpenAI API key not configured. Please add OPENAI_API_KEY secret.'
+        message: 'Gemini API key not configured. Please add GEMINI_API_KEY secret.'
       }), {
         status: 401,
         headers: { 'Content-Type': 'application/json' }
@@ -79,48 +79,39 @@ Subject: [subject line]
 Best regards,
 [Your Name]`;
 
-    // ✅ Call OpenAI REST API
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+// ✅ Call Gemini REST API
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${apiKey}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        model: 'gpt-4',
-        messages: [
-          {
-            role: 'system',
-            content: 'You are a professional sales email writer. Generate clear, effective, and personalized sales emails based on deal stage and context.'
-          },
-          {
-            role: 'user',
-            content: prompt
-          }
-        ],
-        temperature: 0.7,
-        max_tokens: 500
+        contents: [{
+          parts: [{
+            text: `You are a professional sales email writer. Generate clear, effective, and personalized sales emails based on deal stage and context.\n\n${prompt}`
+          }]
+        }]
       })
     });
 
-    if (!response.ok) {
+if (!response.ok) {
       const errorText = await response.text();
       return new Response(JSON.stringify({
         success: false,
-        message: `OpenAI API error: ${errorText}`
+        message: `Gemini API error: ${errorText}`
       }), {
         status: response.status,
         headers: { 'Content-Type': 'application/json' }
       });
     }
 
-    const data = await response.json();
-    const generatedEmail = data.choices?.[0]?.message?.content;
+const data = await response.json();
+    const generatedEmail = data.candidates?.[0]?.content?.parts?.[0]?.text;
 
     if (!generatedEmail) {
       return new Response(JSON.stringify({
         success: false,
-        message: 'Failed to generate email content from OpenAI.'
+        message: 'Failed to generate email content from Gemini.'
       }), {
         status: 500,
         headers: { 'Content-Type': 'application/json' }
